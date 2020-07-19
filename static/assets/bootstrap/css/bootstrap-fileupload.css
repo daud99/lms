@@ -29,7 +29,7 @@
 }
 
 .fileupload .thumbnail {
-  display: inline-block;
+  display: block;
   margin-bottom: 5px;
   overflow: hidden;
   text-align: center;
@@ -113,4 +113,17 @@
 
 .control-group.success .fileupload .thumbnail {
   border-color: #468847;
+}
+
+.fileupload-btn_container {
+  display: flex;
+  justify-content: center;
+}
+
+.marging-btn {
+  display: inline-block;
+  margin: 0 1rem;
+  width: 30%;
+  text-align: center;
+  /*max-width: 300px;*/
 }

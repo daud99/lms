@@ -17,7 +17,11 @@ from django.contrib.messages import constants as messages
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
+# FTP SERVER
 
+FTP_HOST = 'tms.itcomlive.com'
+FTP_USER = 'eventimages'
+FTP_PASSWORD = 'yn71%3Nv'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/

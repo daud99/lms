@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from account.models import User, UserRole
+from LMS.settings import FTP_HOST, FTP_USER, FTP_PASSWORD
+import ftplib
+
 # Create your views here.
 
 def login(request):
@@ -28,6 +31,7 @@ def signup(request):
         password = request.POST['password']
         password2 = request.POST['password2']
         role = request.POST['role']
+        image = request.FILES['image']
 
         if password == password2:
 
@@ -37,8 +41,11 @@ def signup(request):
             else:
 
                 if UserRole.objects.filter(role_name=role).exists():
+                    session = ftplib.FTP(FTP_HOST, FTP_USER, FTP_PASSWORD)
+                    session.storbinary(f'STOR {image.name}', image)
+                    session.quit()
                     user_role = UserRole.objects.get(role_name=role)
-                    user = User.objects.create_user(email=email, password=password, full_name=full_name, role=user_role)
+                    user = User.objects.create_user(email=email, password=password, full_name=full_name, role=user_role, image_url=image.name)
                     user.save()
                     messages.success(request, 'You are now successfully register and log in')
                     return redirect('login')
