@@ -18,6 +18,8 @@ class UserRole(models.Model):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+
+    username = None
     email = models.EmailField(_('email address'), unique=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -26,8 +28,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     # additional fields
 
     full_name = models.CharField(max_length=255)
-    job_category_id = models.CharField(max_length=255)
-    organization_id = models.CharField(max_length=255)
+    job_category_id = models.CharField(max_length=255, default='1')
+    organization_id = models.CharField(max_length=255, default='1')
     image_url = models.CharField(max_length=1000)
     fcm_id = models.PositiveIntegerField()
     os_type = models.PositiveIntegerField()
