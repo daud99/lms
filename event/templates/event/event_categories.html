@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends 'dashboard/base.html' %}
 {% load static %}
+{% load custom_tags %}
 {% block content %}
 
     <!-- BEGIN PAGE -->
@@ -42,7 +43,7 @@
 							<li><a href="#">Event Categories</a><span class="divider-last">&nbsp;</span></li>
                             <li class="pull-right search-wrap">
                                <div>
-                                    <a href="event/add/category" class="btn btn-primary"><i class="icon-plus"></i> Add Event Category</a>
+                                    <a href="/dashboard/event/add/category" class="btn btn-primary"><i class="icon-plus"></i> Add Event Category</a>
                                </div>
                             </li>
 						</ul>
@@ -50,75 +51,86 @@
 					</div>
 				</div>
 				<!-- END PAGE HEADER-->
-
+                {% if event_categories %}
+                    {% for category in event_categories %}
                  <div class="row-fluid">
                         <div class="span12">
                             <!-- BEGIN GRID SAMPLE PORTLET-->
                             <div class="widget">
                                 <div class="widget-title">
-                                    <h4>Event Category Name</h4>
+                                    <h4>{{ category.category_name }}</h4>
                                         <span class="tools">
-                                        <a href="javascript:;" class="icon-trash"></a>
+                                        <a href="{% url 'dashboard:edit_event_category' category.id %}" class="icon-edit"></a>
+                                        <a href="{{ "#myModal"|addstr:category.id }}" data-toggle="modal" class="icon-trash"></a>
                                         </span>
                                 </div>
                                 <div class="widget-body">
                                     <div class="row-fluid blog">
                                 <div class="span4">
-                                    <img src="{% static "img/blog/blog-sm-1.jpg" %}" alt="">
+                                    <img src="{% static "img/"|add:category.category_image_url %}" alt="">
                                 </div>
                                 <div class="span8">
                                     <div class="space20"></div>
                                    <div class="row-fluid">
-                                       <div class="span5 offset1">
+                                       <div class="span6">
                                            <h2><strong>Category Code</strong></h2>
                                        </div>
-                                        <div class="span5 offset1">
+                                        <div class="span6">
                                             <span style="font-size: 22px;">585414</span>
                                        </div>
                                        <div class="space5"></div>
                                    </div>
                                     <div class="row-fluid">
-                                       <div class="span5 offset1">
+                                       <div class="span6">
                                            <h2><strong>Category Perority</strong></h2>
                                        </div>
-                                        <div class="span5 offset1">
-                                            <span style="font-size: 22px;">High</span>
+                                        <div class="span6">
+                                            <span style="font-size: 22px;">{{category.category_priority}}</span>
+                                       </div>
+                                       <div class="space5"></div>
+                                   </div>
+                                    <div class="row-fluid">
+                                       <div class="span6">
+                                           <h2><strong>Status</strong></h2>
+                                       </div>
+                                        <div class="span6">
+                                            <span style="font-size: 22px;">{{category.status}}</span>
                                        </div>
                                        <div class="space5"></div>
                                    </div>
                                      <div class="row-fluid">
-                                       <div class="span5 offset1">
+                                       <div class="span6">
                                            <h2><strong>Created by</strong></h2>
                                        </div>
-                                        <div class="span5 offset1">
-                                            <span style="font-size: 22px;">daudahmed@gmail.com</span>
+                                        <div class="span6">
+                                            <span style="font-size: 22px;">{{category.created_user.email}}</span>
                                        </div>
                                        <div class="space5"></div>
                                    </div>
                                      <div class="row-fluid">
-                                       <div class="span5 offset1">
+                                       <div class="span6">
                                            <h2><strong>Last updated by</strong></h2>
                                        </div>
-                                        <div class="span5 offset1">
-                                            <span style="font-size: 22px;">talha@gmail.com</span>
+                                        <div class="span6">
+                                            <span style="font-size: 22px;">{{category.updated_user.email}}</span>
                                        </div>
                                        <div class="space5"></div>
                                    </div>
                                      <div class="row-fluid">
-                                       <div class="span5 offset1">
+                                       <div class="span6">
                                            <h2><strong>Created Date</strong></h2>
                                        </div>
-                                        <div class="span5 offset1">
-                                            <span style="font-size: 22px;">9 September, 2020</span>
+                                        <div class="span6">
+                                            <span style="font-size: 22px;">{{category.created_date}}</span>
                                        </div>
                                        <div class="space5"></div>
                                    </div>
                                      <div class="row-fluid">
-                                       <div class="span5 offset1">
+                                       <div class="span6">
                                            <h2><strong>Updated Date</strong></h2>
                                        </div>
-                                        <div class="span5 offset1">
-                                            <span style="font-size: 22px;">25 December, 2020</span>
+                                        <div class="span6">
+                                            <span style="font-size: 22px;">{{category.updated_date}}</span>
                                        </div>
                                          <div class="space5"></div>
                                    </div>
@@ -129,6 +141,23 @@
                             <!-- END GRID SAMPLE PORTLET-->
                         </div>
                  </div>
+                         <!-- BEGIN MODAL DIALOG PORTLET-->
+                          <div id="{{ "myModal"|addstr:category.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3 id="myModalLabel3">Confirm Deletion</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to delete?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
+                                    <a href="{% url 'dashboard:delete_event_category' category.id %}" class="btn btn-danger">Yes</a>
+                                </div>
+                            </div>
+                            <!-- END MODAL DIALOG PORTLET-->
+                    {% endfor %}
+                {% endif %}
 
 				</div>
 				<!-- END PAGE CONTENT-->
