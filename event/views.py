@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView
-from event.models import EventCategories
+from event.models import EventCategories, EventImage, Event
 from account.models import User
 from LMS import common
+from datetime import datetime
 # Create your views here.
 
 @login_required(login_url='login')
@@ -82,3 +83,50 @@ def deleteEventCategory(request, id):
         common.downloadImageFromFTP(category.category_image_url)
     context = {"event_categories": event_categories}
     return render(request, "event/event_categories.html", context=context)
+
+
+@login_required(login_url="login")
+def addEvent(request):
+    if request.method == "POST":
+        event_category = request.POST["event_category"]
+        event_name = request.POST["event_name"]
+        event_description = request.POST["event_description"]
+        status = request.POST["status"]
+        start_time = request.POST["start_time"]
+        start_date = request.POST["start_date"]
+        end_time = request.POST["end_time"]
+        end_date = request.POST["end_date"]
+        event_venue = request.POST["event_venue"]
+        event_points = request.POST["event_points"]
+        event_capacity = request.POST["event_capacity"]
+        current_user = User.objects.get(email=request.user.email)
+        start_date_time = start_date+" "+start_time
+        end_date_time = end_date+" "+end_time
+        start_date_time = datetime.strptime(start_date_time, "%m-%d-%Y %I:%M %p")
+        end_date_time = datetime.strptime(end_date_time, "%m-%d-%Y %I:%M %p")
+        try:
+            ec = EventCategories.objects.get(category_name=event_category)
+            event = Event(event_category=ec, event_name=event_name, event_description=event_description, event_scheduled_status=status, event_venue=event_venue, event_start_date=start_date_time, event_end_date=end_date_time, event_points=event_points, event_maximum_attende=event_capacity, created_user=current_user, updated_user=current_user)
+            event.save()
+            if "event_images" in request.FILES:
+                for image in request.FILES.getlist("event_images"):
+                    common.uploadImageToFTP(image.name, image)
+                    try:
+                        ei = EventImage(event=event, image_url=image.name, created_user=current_user, updated_user=current_user)
+                        ei.save()
+                    except Exception as e:
+                        print("Exception while saving event image")
+                        print(e)
+                return redirect("login")
+            else:
+                print("no it is not in Files")
+                return redirect("signup")
+        except Exception as e:
+            print("Exception while saving event")
+            print(e)
+
+
+    else:
+        event_categories = EventCategories.objects.all()
+        context = {"event_categories": event_categories}
+        return render(request, "event/add_event.html", context=context)

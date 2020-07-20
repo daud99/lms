@@ -34,9 +34,10 @@ if(window.google && window.google.maps){
       } else {
         this.el = options.el || options.div;
       };
+
       this.el.style.width = options.width || this.el.scrollWidth || this.el.offsetWidth;
       this.el.style.height = options.height || this.el.scrollHeight || this.el.offsetHeight;
-
+      // alert("height"+this.el.style.height);
       this.controls = [];
       this.overlays = [];
       this.layers = []; // array with kml and ft layers, can be as many
