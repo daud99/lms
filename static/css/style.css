@@ -3887,6 +3887,11 @@ jQuery UI Datepicker(new in v1.2.2)
     text-transform: capitalize;
 }
 
+.event-category-heading {
+    font-size: inherit;
+    text-transform: capitalize;
+}
+
 .events .override-widget-title span.tools {
     height: 70px;
 }

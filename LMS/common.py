@@ -1,3 +1,5 @@
+from django.shortcuts import redirect
+from django.contrib import messages
 from LMS.settings import FTP_HOST, FTP_USER, FTP_PASSWORD
 import ftplib
 import urllib.request as urllib
@@ -26,3 +28,19 @@ def downloadImageFromFTP(image_name):
     except Exception as e:
         print("Exception while downloading image from FTP Server")
         print(e)
+
+def user_is_loggedin_and_is_admin_or_trainer(func):
+    def wrapper(*args, id="default"):
+        if not args[0].user.is_authenticated:
+            messages.error(args[0], 'You are not Logged In')
+            return redirect('login')
+        elif not (args[0].user.role.role_name in ["admin", "trainer"]):
+            messages.error(args[0], 'Only admin and trainer can access this route')
+            return redirect('dashboard:index')
+        else:
+            if id is not "default":
+                return func(args[0], id)
+            else:
+                return func(args[0])
+    return wrapper
+

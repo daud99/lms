@@ -41,11 +41,13 @@
                                 <a href="{% url "dashboard:events" %}">Event</a> <span class="divider">&nbsp;</span>
                             </li>
 							<li><a href="#">Event Categories</a><span class="divider-last">&nbsp;</span></li>
+                            {% if user.role.role_name == "trainer" or user.role.role_name == "admin" %}
                             <li class="pull-right search-wrap">
                                <div>
                                     <a href="/dashboard/event/add/category" class="btn btn-primary"><i class="icon-plus"></i> Add Event Category</a>
                                </div>
                             </li>
+                            {% endif %}
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
@@ -58,11 +60,13 @@
                             <!-- BEGIN GRID SAMPLE PORTLET-->
                             <div class="widget">
                                 <div class="widget-title">
-                                    <h4>{{ category.category_name }}</h4>
+                                    <h4 class="event-category-heading">{{ category.category_name }}</h4>
+                                     {% if user.role.role_name == "trainer" or user.role.role_name == "admin" %}
                                         <span class="tools">
                                         <a href="{% url 'dashboard:edit_event_category' category.id %}" class="icon-edit"></a>
                                         <a href="{{ "#myModal"|addstr:category.id }}" data-toggle="modal" class="icon-trash"></a>
                                         </span>
+                                    {% endif %}
                                 </div>
                                 <div class="widget-body">
                                     <div class="row-fluid blog">

@@ -41,11 +41,13 @@
                                 <a href="{% url "dashboard:events" %}">Event</a> <span class="divider">&nbsp;</span>
                             </li>
 							<li><a href="#">Events</a><span class="divider-last">&nbsp;</span></li>
+                             {% if user.role.role_name == "trainer" or user.role.role_name == "admin" %}
                             <li class="pull-right search-wrap">
                                <div>
                                     <a href="/dashboard/event/add" class="btn btn-primary"><i class="icon-plus"></i> Add Event</a>
                                </div>
                             </li>
+                            {% endif %}
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
@@ -58,9 +60,11 @@
                               <div class="widget">
                                     <div class="widget-title override-widget-title">
                                        <h4><img src="{% static "img/"|addstr:event.event_category.category_image_url %}" alt="category_image" class="event-category-icon"> {{ event.event_category.category_name }}</h4>
+                                         {% if user.role.role_name == "trainer" or user.role.role_name == "admin" %}
                                        <span class="tools event-tools">
                                        <a href="javascript:;" class="icon-chevron-down iconi"></a><a href="{{ "#myModal"|addstr:event.id }}" data-toggle="modal" class="icon-trash iconi"></a>
                                        </span>
+                                        {% endif %}
                                     </div>
                                     <div class="widget-body">
                                         <div class="row-fluid blog">

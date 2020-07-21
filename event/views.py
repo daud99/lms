@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView
 from event.models import EventCategories, EventImage, Event
 from account.models import User
 from LMS import common
@@ -8,7 +7,7 @@ from datetime import datetime
 import json
 # Create your views here.
 
-@login_required(login_url='login')
+@common.user_is_loggedin_and_is_admin_or_trainer
 def addEventCategory(request):
     if request.method == "POST":
         category_name = request.POST["category_name"]
@@ -44,7 +43,7 @@ def listEventCategories(request):
     context = {"event_categories": event_categories}
     return render(request, "event/event_categories.html", context=context)
 
-@login_required(login_url='login')
+@common.user_is_loggedin_and_is_admin_or_trainer
 def editEventCategory(request, id):
     if request.method == "POST":
         category_name = request.POST["category_name"]
@@ -83,7 +82,7 @@ def editEventCategory(request, id):
         return render(request, 'event/edit_event_category.html', context=context)
 
 
-@login_required(login_url="login")
+@common.user_is_loggedin_and_is_admin_or_trainer
 def deleteEventCategory(request, id):
     try:
         event_category = get_object_or_404(EventCategories, id=id)
@@ -98,7 +97,7 @@ def deleteEventCategory(request, id):
     return render(request, "event/event_categories.html", context=context)
 
 
-@login_required(login_url="login")
+@common.user_is_loggedin_and_is_admin_or_trainer
 def addEvent(request):
     if request.method == "POST":
         fields = ["event_name", "event_description", "event_scheduled_status", "event_venue", "event_points",
@@ -207,7 +206,7 @@ def detailEvent(request, id):
         print("Exception while finding the specific event")
         print(e)
 
-@login_required(login_url="login")
+@common.user_is_loggedin_and_is_admin_or_trainer
 def deleteEvent(request, id):
     try:
         event = get_object_or_404(Event, id=id)
