@@ -30,6 +30,7 @@ Website: http://thevectorlab.net/
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body id="login-body">
+  {% include 'partials/_alerts.html' %}
   <div class="login-header">
       <!-- BEGIN LOGO -->
       <div id="logo" class="center">
@@ -45,7 +46,6 @@ Website: http://thevectorlab.net/
           <h1><a href="{% url "login" %}">Log In</a></h1>
       </div>
   </div>
-   {% include 'partials/_alerts.html' %}
     <!-- BEGIN FORGOT PASSWORD FORM -->
     <form id="forgotform" class="form-vertical no-padding no-margin" method="POST" action="/signup/" enctype="multipart/form-data">
     {% if form.errors %}

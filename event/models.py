@@ -11,7 +11,7 @@ class EventCategories(models.Model):
         verbose_name_plural = 'EventCategories'
     category_name = models.CharField(unique=True, max_length=255)
     category_code = models.CharField(unique=True, max_length=255)
-    category_image_url = models.CharField(unique=True, max_length=1000)
+    category_image_url = models.CharField(max_length=1000)
     category_priority = models.PositiveIntegerField(unique=True)
     created_user = models.ForeignKey(User, related_name='created_user', on_delete=models.CASCADE)
     updated_user = models.ForeignKey(User, related_name='updated_user', on_delete=models.CASCADE)

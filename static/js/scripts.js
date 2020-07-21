@@ -1546,7 +1546,11 @@ var App = function () {
             }
         });
     }
-
+    var hideMessage = function () {
+        setTimeout(function () {
+        $("#dismissible-container").fadeOut('slow');
+        },1000);
+    }
     var addEventAgendaForm = function () {
         var count = 1;
         $("#addAgendaBtn").click(function() {
@@ -2186,6 +2190,7 @@ var App = function () {
                 $('.visible-ie8').show();
             }
             addEventAgendaForm(); // custom code written by daud
+            hideMessage(); // custome code written by daud
             handleDeviceWidth(); // handles proper responsive features of the page
             handleChoosenSelect(); // handles bootstrap chosen dropdowns
 
@@ -2237,6 +2242,7 @@ var App = function () {
         initLogin: function () {
             handleLoginForm();
             handleFixInputPlaceholderForIE();
+            hideMessage();
         },
 
         // wrapper function for page element pulsate
