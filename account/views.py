@@ -6,24 +6,35 @@ import ftplib
 
 # Create your views here.
 
+def login_excluded(redirect_to):
+    """ This decorator kicks authenticated users out of a view """
+    def _method_wrapper(view_method):
+        def _arguments_wrapper(request, *args, **kwargs):
+            if request.user.is_authenticated:
+                return redirect(redirect_to)
+            return view_method(request, *args, **kwargs)
+        return _arguments_wrapper
+    return _method_wrapper
+
+@login_excluded("dashboard:index")
 def login(request):
 
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = auth.authenticate(email=email, password=password)
-
         if user is not None:
+            common.downloadImageFromFTP(user.image_url)
             auth.login(request, user)
-            messages.success(request, 'You are now logged in')
             return redirect('dashboard:index')
         else:
             messages.error(request, 'Invalid Credentials')
-            return redirect('login')
+            context = {"values": request.POST}
+            return render(request, 'registration/login.html', context=context)
     else:
         return render(request, 'registration/login.html')
 
-
+@login_excluded("dashboard:index")
 def signup(request):
     if request.method == "POST":
         email = request.POST['email']
@@ -37,7 +48,8 @@ def signup(request):
 
             if User.objects.filter(email=email).exists():
                 messages.error(request, 'That email is taken')
-                return redirect('signup')
+                context = {"values": request.POST}
+                return render(request, 'registration/signup.html', context=context)
             else:
 
                 if UserRole.objects.filter(role_name=role).exists():
@@ -49,15 +61,16 @@ def signup(request):
                     return redirect('login')
                 else:
                     messages.error(request, 'Invalid role')
-                    return redirect('signup')
+                    context = {"values": request.POST}
+                    return render(request, 'registration/signup.html', context=context)
 
 
         else:
             messages.error(request, 'Passwords do not match')
-            return redirect('signup')
+            context = {"values": request.POST}
+            return render(request, 'registration/signup.html', context=context)
 
     else:
-
         return render(request, 'registration/signup.html')
 
 

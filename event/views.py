@@ -5,6 +5,7 @@ from event.models import EventCategories, EventImage, Event
 from account.models import User
 from LMS import common
 from datetime import datetime
+import json
 # Create your views here.
 
 @login_required(login_url='login')
@@ -14,7 +15,10 @@ def addEventCategory(request):
         category_code = request.POST["category_code"]
         category_periorty = request.POST["category_perority"]
         category_image = request.FILES["category_image"]
-        category_status = request.POST["category_status"]
+        if "category_status" in request.POST:
+            category_status = 1
+        else:
+            category_status = 0
 
         try:
             common.uploadImageToFTP(category_image.name, category_image)
@@ -24,6 +28,9 @@ def addEventCategory(request):
 
         except Exception as e:
             print(e)
+            # here will send the user feedback
+            context = {"values": request.POST}
+            return render(request, 'event/add_event_category.html', context=context)
 
         return redirect("dashboard:event_categories")
     else:
@@ -43,7 +50,10 @@ def editEventCategory(request, id):
         category_name = request.POST["category_name"]
         category_code = request.POST["category_code"]
         category_periorty = request.POST["category_perority"]
-        category_status = request.POST["category_status"]
+        if "category_status" in request.POST:
+            category_status = 1
+        else:
+            category_status = 0
 
         try:
             current_user = User.objects.get(email=request.user.email)
@@ -58,6 +68,9 @@ def editEventCategory(request, id):
         except Exception as e:
             print("Exception while updating the event category")
             print(e)
+            # here will send the user feedback
+            context = {"values": request.POST}
+            return render(request, 'event/edit_event_category.html', context=context)
 
         return redirect("dashboard:event_categories")
     else:
@@ -88,26 +101,63 @@ def deleteEventCategory(request, id):
 @login_required(login_url="login")
 def addEvent(request):
     if request.method == "POST":
-        event_category = request.POST["event_category"]
-        event_name = request.POST["event_name"]
-        event_description = request.POST["event_description"]
-        status = request.POST["status"]
+        fields = ["event_name", "event_description", "event_scheduled_status", "event_venue", "event_points",
+                  "event_maximum_attende"]
+        event_obj = {}
+        agenda = []
+        agenda_count = 0
+        for each in request.POST:
+            if each in fields:
+                event_obj[each] = request.POST[each]
+            else:
+                if "session_name" in each:
+                    agenda.append({"sessionName": request.POST[each]})
+                elif "speaker_name" in each:
+                    agenda[agenda_count]["speakerName"] = request.POST[each]
+                elif "agenda_start" in each:
+                    agenda[agenda_count]["startTime"] = request.POST[each]
+                elif "agenda_end" in each:
+                    agenda[agenda_count]["endTime"] = request.POST[each]
+                elif "venu_name" in each:
+                    agenda[agenda_count]["venueName"] = request.POST[each]
+                    agenda_count = agenda_count + 1
         start_time = request.POST["start_time"]
         start_date = request.POST["start_date"]
         end_time = request.POST["end_time"]
         end_date = request.POST["end_date"]
-        event_venue = request.POST["event_venue"]
-        event_points = request.POST["event_points"]
-        event_capacity = request.POST["event_capacity"]
-        current_user = User.objects.get(email=request.user.email)
-        start_date_time = start_date+" "+start_time
-        end_date_time = end_date+" "+end_time
-        start_date_time = datetime.strptime(start_date_time, "%m-%d-%Y %I:%M %p")
-        end_date_time = datetime.strptime(end_date_time, "%m-%d-%Y %I:%M %p")
+        ec = request.POST["event_category"]
+        start_date_time = start_date + " " + start_time
+        end_date_time = end_date + " " + end_time
         try:
-            ec = EventCategories.objects.get(category_name=event_category)
-            event = Event(event_category=ec, event_name=event_name, event_description=event_description, event_scheduled_status=status, event_venue=event_venue, event_start_date=start_date_time, event_end_date=end_date_time, event_points=event_points, event_maximum_attende=event_capacity, created_user=current_user, updated_user=current_user)
-            event.save()
+            event_obj["event_start_date"] = datetime.strptime(start_date_time, "%m/%d/%Y %I:%M %p")
+        except Exception as e:
+            print("Excpetion while parsing date")
+            print(e)
+            event_obj["event_start_date"] = datetime.strptime(start_date_time, "%m-%d-%Y %I:%M %p")
+
+        try:
+            event_obj["event_end_date"] = datetime.strptime(end_date_time, "%m/%d/%Y %I:%M %p")
+        except Exception as e:
+            print("Excpetion while parsing date")
+            print(e)
+            event_obj["event_end_date"] = datetime.strptime(end_date_time, "%m-%d-%Y %I:%M %p")
+
+        event_obj["event_agenda"] = json.dumps(agenda)
+        try:
+            event_category = EventCategories.objects.get(category_name=ec)
+            current_user = User.objects.get(email=request.user.email)
+            event_obj["created_user"] = current_user
+            event_obj["updated_user"] = current_user
+            event_obj["event_category"] = event_category
+            try:
+                event = Event(**event_obj)
+                event.save()
+            except Exception as e:
+                print("Exception while saving event")
+                print(e)
+                event_categories = EventCategories.objects.all()
+                context = {"event_categories": event_categories, "values": request.POST}
+                return render(request, "event/add_event.html", context=context)
             if "event_images" in request.FILES:
                 for image in request.FILES.getlist("event_images"):
                     common.uploadImageToFTP(image.name, image)
@@ -117,16 +167,57 @@ def addEvent(request):
                     except Exception as e:
                         print("Exception while saving event image")
                         print(e)
-                return redirect("login")
+                events = Event.objects.all()
+                for event in events:
+                    for each in event.event_image_event.all():
+                        common.downloadImageFromFTP(str(each))
+                context = {"events": events}
+                return render(request, "event/events.html", context=context)
             else:
                 print("no it is not in Files")
                 return redirect("signup")
         except Exception as e:
             print("Exception while saving event")
             print(e)
-
-
     else:
         event_categories = EventCategories.objects.all()
         context = {"event_categories": event_categories}
         return render(request, "event/add_event.html", context=context)
+
+@login_required(login_url="login")
+def listEvent(request):
+    events = Event.objects.all()
+    for event in events:
+        for each in event.event_image_event.all():
+            common.downloadImageFromFTP(str(each))
+    context = {"events": events}
+    return render(request, "event/events.html", context=context)
+
+@login_required(login_url="login")
+def detailEvent(request, id):
+    try:
+        # print("Id is ", id)
+        event = Event.objects.get(id=id)
+        # print(event)
+        for each in event.event_image_event.all():
+            common.downloadImageFromFTP(str(each))
+        context = {"event": event}
+        return render(request, "event/event_detail.html", context=context)
+    except Exception as e:
+        print("Exception while finding the specific event")
+        print(e)
+
+@login_required(login_url="login")
+def deleteEvent(request, id):
+    try:
+        event = get_object_or_404(Event, id=id)
+        event.delete()
+    except Exception as e:
+        print("Exception while deleting event")
+        print(e)
+    events = Event.objects.all()
+    for event in events:
+        for each in event.event_image_event.all():
+            common.downloadImageFromFTP(str(each))
+    context = {"events": events}
+    return render(request, "event/events.html", context=context)

@@ -34,10 +34,10 @@
 						</h3>
 						<ul class="breadcrumb">
 							<li>
-                                <a href="#"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                                <a href="{% url "dashboard:events" %}"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
 							</li>
                             <li>
-                                <a href="#">Event</a> <span class="divider">&nbsp;</span>
+                                <a href="{% url "dashboard:events" %}">Event</a> <span class="divider">&nbsp;</span>
                             </li>
 							<li><a href="#">Add Event Category</a><span class="divider-last">&nbsp;</span></li>
 						</ul>
@@ -80,7 +80,7 @@
                               </div>
                               <div class="tab-content">
                                  <div class="tab-pane active" id="tab1">
-                                    <h3>Fill up step 1</h3>
+                                    <h3>Create Event</h3>
                                     <div class="control-group">
                                       <label class="control-label">Event Category</label>
                                       <div class="controls">
@@ -95,14 +95,14 @@
                                     <div class="control-group">
                                        <label class="control-label">Event name</label>
                                        <div class="controls">
-                                          <input type="text" class="span6" name="event_name" required/>
+                                          <input type="text" class="span6" name="event_name" value="{{ values.event_name }}" required/>
                                           <span class="help-inline"></span>
                                        </div>
                                     </div>
                                      <div class="control-group">
                                        <label class="control-label">Event Description</label>
                                        <div class="controls">
-                                           <textarea class="span6" rows="4" name="event_description" required></textarea>
+                                           <textarea class="span6" rows="4" name="event_description" required>{{ values.event_description }}</textarea>
                                           <span class="help-inline"></span>
                                        </div>
                                     </div>
@@ -116,16 +116,31 @@
                                             </div>
                                             <div class="space20"></div>
                                     </div>
+                                    <div class="control-group" id="before-me">
+
+                                            <div class="controls">
+                                               <button class="btn btn-primary span6 offset2" id="addAgendaBtn"><i class="icon-plus"></i> Add Event Agenda</button>
+                                           </div>
+                                            <div class="space20"></div>
+                                    </div>
                                  </div>
                                  <div class="tab-pane" id="tab4">
                                     <h4>Final step</h4>
                                     <div class="control-group">
                                       <label class="control-label">Event Status</label>
                                       <div class="controls">
-                                         <select class="chosen" data-placeholder="Choose event status" tabindex="1" name="status" required>
+                                         <select class="chosen" data-placeholder="Choose event status" tabindex="1" name="event_scheduled_status" required>
                                             <option value=""></option>
-                                                <option value="0">Yet to schedule</option>
-                                                <option value="1">Scheduled</option>
+                                                <option value="0"
+                                                    {% if values.event_scheduled_status == 0 %}
+                                                    selected
+                                                    {% endif %}
+                                                >Yet to schedule</option>
+                                                <option value="1"
+                                                    {% if values.event_scheduled_status == 1 %}
+                                                    selected
+                                                    {% endif %}
+                                                >Scheduled</option>
                                          </select>
                                       </div>
                                    </div>
@@ -133,7 +148,7 @@
                                         <label class="control-label">Event Start Time</label>
                                         <div class="controls">
                                             <div class="input-append bootstrap-timepicker-component">
-                                                <input class=" m-ctrl-small timepicker-default" type="text" name="start_time" required/>
+                                                <input class="m-ctrl-small timepicker-default" type="text" name="start_time" placeholder="Select start time" value="{{ values.start_time }}" required/>
                                                 <span class="add-on"><i class="icon-time"></i></span>
                                             </div>
                                         </div>
@@ -141,14 +156,14 @@
                                     <div class="control-group">
                                         <label class="control-label">Event Start Date</label>
                                         <div class="controls">
-                                            <input class=" m-ctrl-medium date-picker" size="16" type="text" value="12-02-2012" name="start_date" required/>
+                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select start date" name="start_date" value="{{ values.start_date }}" required/>
                                         </div>
-                                </div>
+                                    </div>
                                     <div class="control-group">
                                         <label class="control-label">Event End Time</label>
                                         <div class="controls">
                                             <div class="input-append bootstrap-timepicker-component">
-                                                <input class=" m-ctrl-small timepicker-default" type="text" name="end_time" required/>
+                                                <input class="m-ctrl-small timepicker-default" type="text" placeholder="Select end time" name="end_time" value="{{ values.end_time }}" required/>
                                                 <span class="add-on"><i class="icon-time"></i></span>
                                             </div>
                                         </div>
@@ -156,27 +171,27 @@
                                     <div class="control-group">
                                         <label class="control-label">Event End Date</label>
                                         <div class="controls">
-                                            <input class=" m-ctrl-medium date-picker" size="16" type="text" value="12-02-2012" name="end_date" required/>
+                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select end date" name="end_date" value="{{ values.end_date }}" required/>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                        <label class="control-label">Event Venue</label>
                                        <div class="controls">
-                                          <input type="text" class="span6" name="event_venue" required/>
+                                          <input type="text" class="span6" name="event_venue" value="{{ values.event_venue }}" required/>
                                           <span class="help-inline"></span>
                                        </div>
                                     </div>
                                     <div class="control-group">
                                        <label class="control-label">Event Points</label>
                                        <div class="controls">
-                                          <input type="number" class="span6" name="event_points" required/>
+                                          <input type="number" class="span6" name="event_points" value="{{ values.event_points }}" required/>
                                           <span class="help-inline"></span>
                                        </div>
                                     </div>
                                     <div class="control-group">
                                        <label class="control-label">Event Capacity</label>
                                        <div class="controls">
-                                          <input type="number" class="span6" name="event_capacity" required/>
+                                          <input type="number" class="span6" name="event_maximum_attende" value="{{ values.event_maximum_attende }}" required/>
                                           <span class="help-inline"></span>
                                        </div>
                                     </div>

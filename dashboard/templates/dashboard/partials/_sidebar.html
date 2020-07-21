@@ -16,13 +16,12 @@
 			<ul class="sidebar-menu">
 				<li class="has-sub active">
 					<a href="javascript:;" class="">
-					    <span class="icon-box"> <i class="icon-dashboard"></i></span> Event
+					    <span class="icon-box"> <i class="icon-fire"></i></span> Event
                         <span class="arrow"></span>
                     </a>
                     <ul class="sub">
-                        <li class="active"><a class="" href="index.html">Events</a></li>
-                        <li><a class="" href="index_2.html">Schedule Event</a></li>
-                        <li><a class="" href="index_2.html">Event Categories</a></li>
+                        <li class="active"><a class="" href="{% url "dashboard:events" %}">Events</a></li>
+                        <li><a class="" href="{% url "dashboard:event_categories" %}">Event Categories</a></li>
                     </ul>
 				</li>
             </ul>

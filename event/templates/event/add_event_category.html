@@ -37,125 +37,81 @@
                                 <a href="#"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
 							</li>
                             <li>
-                                <a href="#">Event</a> <span class="divider">&nbsp;</span>
+                                <a href="{% url "dashboard:event_categories" %}">Event Categories</a> <span class="divider">&nbsp;</span>
                             </li>
-							<li><a href="#">Add Event Category</a><span class="divider-last">&nbsp;</span></li>
+							<li><a href="#">Add Event Categodry</a><span class="divider-last">&nbsp;</span></li>
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
 				</div>
 				<!-- END PAGE HEADER-->
-            <div class="row-fluid">
-               <div class="span12">
-                  <div class="widget box blue" id="form_wizard_1">
+                     <div class="widget">
                      <div class="widget-title">
-                        <h4>
-                           <i class="icon-reorder"></i> Add Event Category - <span class="step-title">Step 1 of 2</span>
-                        </h4>
-
+                        <h4><i class="icon-reorder"></i>Add Event Category</h4>
                      </div>
                      <div class="widget-body form">
+                        <!-- BEGIN FORM-->
                         <form class="form-horizontal" method="POST" enctype="multipart/form-data">
-                           <div class="form-wizard">
-                              <div class="navbar steps">
-                                 <div class="navbar-inner">
-                                    <ul class="row-fluid">
-                                       <li class="span3">
-                                          <a href="#tab1" data-toggle="tab" class="step active">
-                                          <span class="number">1</span>
-                                          <span class="desc"><i class="icon-ok"></i> Step 1</span>
-                                          </a>
-                                       </li>
-                                       <li class="span3">
-                                          <a href="#tab4" data-toggle="tab" class="step">
-                                          <span class="number">2</span>
-                                          <span class="desc"><i class="icon-ok"></i> Final Step</span>
-                                          </a>
-                                       </li>
-                                    </ul>
-                                 </div>
-                              </div>
-                              <div id="bar" class="progress progress-striped">
-                                 <div class="bar"></div>
-                              </div>
-                              <div class="tab-content">
-                                 <div class="tab-pane active" id="tab1">
-                                    <h3>Fill up step 1</h3>
-                                    <div class="control-group">
-                                       <label class="control-label">Category Name</label>
-                                       <div class="controls">
-                                          <input type="text" class="span6" name="category_name" required/>
-                                          <span class="help-inline"></span>
-                                       </div>
-                                    </div>
-                                    <div class="control-group">
-                                       <label class="control-label">Category Code</label>
-                                       <div class="controls">
-                                          <input type="text" class="span6" name="category_code" required/>
-                                          <span class="help-inline"></span>
-                                       </div>
-                                    </div>
-                                     <div class="control-group">
-                                       <label class="control-label">Category Perority</label>
-                                       <div class="controls">
-                                          <input type="text" class="span6" name="category_perority" required/>
-                                          <span class="help-inline"></span>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 <div class="tab-pane" id="tab4">
-                                    <h4>Final step</h4>
-                                  <div class="control-group">
-                                         <label class="control-label">Select Category Image</label>
-                                            <div class="controls">
-                                                <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-                                                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" style="border-radius: 50%;">
-                                                    </div>
-                                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px; display: block;"></div>
-                                                    <div class="space20"></div>
-                                                    <div>
-                                                        <span class="btn btn-file"><span class="fileupload-new">Select image</span>
-                                                           <span class="fileupload-exists marging-btn">Change</span>
-                                                           <input type="file" class="default" name="category_image" required>
-                                                       </span>
-                                                        <a href="#" class="btn fileupload-exists marging-btn" data-dismiss="fileupload">Remove</a>
-                                                    </div>
-                                                </div>
+                            <div class="control-group">
+                               <label class="control-label">Category Name</label>
+                               <div class="controls">
+                                  <input type="text" class="span6" name="category_name" value="{{ values.category_name }}" required/>
+                                  <span class="help-inline"></span>
+                               </div>
+                            </div>
+                            <div class="control-group">
+                               <label class="control-label">Category Code</label>
+                               <div class="controls">
+                                  <input type="number" class="span6" name="category_code" values="{{ values.category_code }}" required/>
+                                  <span class="help-inline"></span>
+                               </div>
+                            </div>
+                             <div class="control-group">
+                               <label class="control-label">Category Perority</label>
+                               <div class="controls">
+                                  <input type="number" class="span6" name="category_perority" value="{{ values.category_perority }}" required/>
+                                  <span class="help-inline"></span>
+                               </div>
+                            </div>
+                             <div class="control-group">
+                                 <label class="control-label">Select Category Image</label>
+                                    <div class="controls">
+                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="" style="border-radius: 50%;">
                                             </div>
+                                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px; display: block;"></div>
                                             <div class="space20"></div>
+                                            <div>
+                                                <span class="btn btn-file"><span class="fileupload-new">Select image</span>
+                                                   <span class="fileupload-exists marging-btn">Change</span>
+                                                   <input type="file" class="default" name="category_image" required>
+                                               </span>
+                                                <a href="#" class="btn fileupload-exists marging-btn" data-dismiss="fileupload">Remove</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="control-group">
-                                       <label class="control-label">status</label>
-                                       <div class="controls">
-                                          <input type="text" class="span6" name="category_status" required/>
-                                          <span class="help-inline"></span>
-                                       </div>
+                                    <div class="space20"></div>
+                            </div>
+                            <div class="control-group">
+                               <label class="control-label">status</label>
+                               <div class="controls">
+{#                                  <input type="text" class="span6" name="category_status" required/>#}
+                                   <div class="basic-toggle-button">
+                                        <input type="checkbox" class="toggle" checked="checked" name="category_status"/>
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="form-actions clearfix">
-                                 <a href="javascript:;" class="btn button-previous">
-                                 <i class="icon-angle-left"></i> Back
-                                 </a>
-                                 <a href="javascript:;" class="btn btn-primary blue button-next">
-                                 Continue <i class="icon-angle-right"></i>
-                                 </a>
-{#                                 <a type="submit" class="btn btn-success button-submit">#}
-{#                                 Submit <i class="icon-ok"></i>#}
-                                        {% csrf_token %}
-
-                                 <button type="submit" class="btn btn-success button-submit">
-                                     Submit <i class="icon-ok"></i></button>
-
-                              </div>
+{#                                  <span class="help-inline"></span>#}
+                               </div>
+                            </div>
+                           <div class="form-actions">
+                              {% csrf_token %}
+                             <button type="submit" class="btn btn-success button-submit">
+                                 Submit <i class="icon-ok"></i></button>
                            </div>
                         </form>
+                        <!-- END FORM-->
                      </div>
                   </div>
-               </div>
-            </div>
-
 				</div>
 				<!-- END PAGE CONTENT-->
 			</div>

@@ -1682,6 +1682,10 @@ textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[ty
     border: 1px solid #08c;
 }
 
+#login.signup {
+    margin: 100px auto 0;
+}
+
 .login-btn {
     background: #103A86;
     border: none;
@@ -3862,4 +3866,85 @@ jQuery UI Datepicker(new in v1.2.2)
 }
 #theme-change{
 	display: none;
+}
+
+/* daud's css */
+
+.event-category-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.events .override-widget-title {
+    height: 70px;
+    font-size: 50px;
+
+}
+
+.events .override-widget-title h4 {
+    font-size: inherit;
+    text-transform: capitalize;
+}
+
+.events .override-widget-title span.tools {
+    height: 70px;
+}
+
+.events .event-last-added-image {
+    max-height: 300px;
+}
+
+.events .event-time-showcase {
+    border: grey solid 2px;
+    padding: 2rem;
+    border-radius: 15px;
+}
+
+.events .padding-me {
+    padding: 1rem;
+}
+
+.events .icon-time,.icon-question-sign,.icon-user-agenda,.icon-book {
+    font-size: 3rem;
+}
+
+.events .icon-time::before {
+    display: block;
+    width: 100%;
+    margin: 26px 0;
+}
+
+.events .color-me {
+    background-color: #c4e3f3;
+}
+
+.events .icon-time-agenda::before {
+    margin: -21px 15px;
+}
+
+.events .padding-me-agenda {
+    padding: 1rem 0;
+}
+
+.events .event-heading {
+    font-size: 3rem;
+    font-weight: bolder;
+    text-transform: uppercase;
+    display: block;
+    padding: 1rem;
+    color: #2badb6;
+}
+
+.events .event-font {
+    font-size: 2rem;
+    vertical-align: middle;
+}
+
+.icon-calendar-event {
+    line-height: 1px;
+}
+
+.iconi:before {
+    font-size: 2rem;
 }

@@ -1547,6 +1547,20 @@ var App = function () {
         });
     }
 
+    var addEventAgendaForm = function () {
+        var count = 1;
+        $("#addAgendaBtn").click(function() {
+            $(`<div class="row-fluid"><div class="span12"><div class="widget"><div class="widget-title"><h4><i class="icon-reorder"></i>Event Agenda</h4><span class="tools"><a href="javascript:;" class="icon-chevron-down"></a><a href="javascript:;" class="icon-remove remove-me"></a></span></div><div class="widget-body form"><div class="control-group"><label class="control-label">Session Name</label><div class="controls"><input type="text" class="span6" name="session_name${count}" required/><span class="help-inline"></span></div></div><div class="control-group"><label class="control-label">Speaker Name</label><div class="controls"><input type="text" class="span6" name="speaker_name${count}" required/><span class="help-inline"></span></div></div><div class="control-group"><label class="control-label">Start Time</label><div class="controls"><div class="input-append bootstrap-timepicker-component"><input class=" m-ctrl-small timepicker-default" type="text" name="agenda_start_time${count}" required/><span class="add-on"><i class="icon-time"></i></span></div></div></div><div class="control-group"><label class="control-label">End Time</label><div class="controls"><div class="input-append bootstrap-timepicker-component"><input class=" m-ctrl-small timepicker-default" type="text" name="agenda_end_time${count}" required/><span class="add-on"><i class="icon-time"></i></span></div></div></div><div class="control-group"><label class="control-label">Venue Name</label><div class="controls"><input type="text" class="span6" name="venu_name${count}" required/><span class="help-inline"></span></div></div></div></div></div></div></div>`).insertBefore("#before-me");
+            count++;
+
+        });
+
+        $(".row-fluid").delegate(".remove-me","click", function() {
+            $(this).closest(".row-fluid").remove();
+        });
+
+    }
+
     var handleGritterNotifications = function () {
         if (!jQuery.gritter) {
             return;
@@ -2008,7 +2022,7 @@ var App = function () {
             'nextSelector': '.button-next',
             'previousSelector': '.button-previous',
             onTabClick: function (tab, navigation, index) {
-                alert('on tab click disabled');
+                // alert('on tab click disabled');
                 return false;
             },
             onNext: function (tab, navigation, index) {
@@ -2171,7 +2185,7 @@ var App = function () {
                 isIE8 = true; // checkes for IE8 browser version
                 $('.visible-ie8').show();
             }
-
+            addEventAgendaForm(); // custom code written by daud
             handleDeviceWidth(); // handles proper responsive features of the page
             handleChoosenSelect(); // handles bootstrap chosen dropdowns
 
