@@ -155,7 +155,7 @@
                                                      </div>
                                                     <div class="row-fluid">
                                                          <div class="span4">
-                                                            <i class="icon-map-marker icon-user-agenda padding-me-agenda"></i>
+                                                            <i class="icon-pushpin icon-user-agenda padding-me-agenda"></i>
                                                         </div>
                                                         <div class="span4 offset2">
                                                              <div class="padding-me">
@@ -163,6 +163,22 @@
                                                             </div>
                                                              <div class="padding-me">
                                                                 {{ event.event_venue }}
+                                                            </div>
+                                                        </div>
+                                                     </div>
+                                                      <div class="row-fluid">
+                                                         <div class="span4">
+                                                            <i class="icon-map-marker icon-user-agenda padding-me-agenda"></i>
+                                                        </div>
+                                                        <div class="span4 offset2">
+                                                             <div class="padding-me">
+                                                                <h3>Location</h3>
+                                                            </div>
+                                                             <div class="padding-me">
+                                                                {{ event.event_location|parseLogLat:'' }}
+                                                            </div>
+                                                            <div class="padding-me">
+                                                                <a href="{{ event.event_location|addWithComma:"http://maps.google.com/?q=" }}" target="_blank">View in Google map</a>
                                                             </div>
                                                         </div>
                                                      </div>

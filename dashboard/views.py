@@ -4,7 +4,7 @@ from LMS import common
 import os
 # Create your views here.
 
-@login_required(login_url='login')
+@login_required(login_url='account_login')
 def index(request):
     image_name = request.user.image_url
     common.downloadImageFromFTP(image_name)

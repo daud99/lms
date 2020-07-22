@@ -214,6 +214,7 @@ def detailEvent(request, id):
         print("Exception while finding the specific event")
         print(e)
         messages.error(request, "event with given ID not found!")
+        return render(request, "event/events.html")
 
 @common.user_is_loggedin_and_is_admin_or_trainer
 def deleteEvent(request, id):
@@ -231,24 +232,3 @@ def deleteEvent(request, id):
             common.downloadImageFromFTP(str(each))
     context = {"events": events}
     return render(request, "event/events.html", context=context)
-
-
-def testMap(request):
-    print("yes here")
-    if request.method == 'POST':
-        form = LocationForm(request.POST)
-        if form.is_valid():
-            print(form)
-            # creatingEmailMonitoringReport.delay(request.FILES['file'], request.user.id)
-            # p1 = threading.Thread(target=handle_uploaded_file, args=[request.FILES['file'], request.user.id, request.user.email])
-            # p1.start()
-            messages.success(request, 'form received successfully')
-            # print(request.FILES['file'])
-            # return HttpResponseRedirect('/adminpanel/generate/report')
-    else:
-        form = LocationForm()
-
-    context = {
-        'form': form
-    }
-    return render(request, 'event/test.html', context)

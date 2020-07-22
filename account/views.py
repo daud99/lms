@@ -60,7 +60,7 @@ def signup(request):
                     user = User.objects.create_user(email=email, password=password, full_name=full_name, role=user_role, image_url=image.name, location= location)
                     user.save()
                     messages.success(request, 'You are now successfully register and log in')
-                    return redirect('login')
+                    return redirect('account_login')
                 else:
                     messages.error(request, 'Invalid role')
                     context = {"values": request.POST}

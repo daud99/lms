@@ -1,10 +1,12 @@
 from django.shortcuts import redirect
 from django.contrib import messages
-from LMS.settings import FTP_HOST, FTP_USER, FTP_PASSWORD
+from LMS.settings import FTP_HOST, FTP_USER, FTP_PASSWORD, GEOCODE_URL
 import ftplib
 import urllib.request as urllib
 from pathlib import Path
+import requests
 import os
+import json
 
 def uploadImageToFTP(image_name, image):
     try:
@@ -38,7 +40,7 @@ def user_is_loggedin_and_is_admin_or_trainer(func):
             messages.error(args[0], 'Only admin and trainer can access this route')
             return redirect('dashboard:index')
         else:
-            if id is not "default":
+            if not(id == "default"):
                 return func(args[0], id)
             else:
                 return func(args[0])
@@ -51,3 +53,44 @@ def processLocation(location):
         return event_location
     else:
         return {}
+
+def getLocationFromLangLat(location):
+
+    location_name = "Not found"
+    try:
+        if location:
+            if "coordinates" in location:
+                lat = location["coordinates"][0]
+                log = location["coordinates"][1]
+                final_location = lat+","+log
+                final_url = GEOCODE_URL+final_location+"?json=1"
+                print("final_url", final_url)
+                res = requests.get(final_url)
+                res = res.json()
+                if "osmtags" in res:
+                    location_name = res["osmtags"]
+                    if "name" in location_name:
+                        location_name = location_name["name"]
+                    elif "city" in location_name:
+                        location_name = location_name["city"]
+                    else:
+                        location_name = "Not found"
+            else:
+                location_name = "Not found"
+        else:
+            location_name = "Not found"
+    except Exception as e:
+        print("Exception while finding location form longitude and latitude")
+        print(e)
+
+    return  location_name
+
+def getLangLat(location):
+    if location:
+        if "coordinates" in location:
+            lat = location["coordinates"][0]
+            log = location["coordinates"][1]
+            final_location = lat+","+log
+        return final_location
+    else:
+        ""

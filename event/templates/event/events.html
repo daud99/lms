@@ -87,7 +87,10 @@
                                                          <i class="icon-map-marker icon-calendar-event"></i>
                                                      </div>
                                                      <div class="span10 event-font">
-                                                         <strong>{{ event.event_venue }}</strong>
+                                                         <strong>{{ event.event_location|parseLogLat:'' }}</strong>
+                                                          <div class="padding-me">
+                                                              <a href="{{ event.event_location|addWithComma:"http://maps.google.com/?q=" }}" target="_blank">View in Google map</a>
+                                                            </div>
                                                      </div>
                                                  </div>
                                             </div>

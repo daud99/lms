@@ -3910,7 +3910,7 @@ jQuery UI Datepicker(new in v1.2.2)
     padding: 1rem;
 }
 
-.events .icon-time,.icon-question-sign,.icon-user-agenda,.icon-book {
+.events .icon-time,.icon-question-sign,.icon-user-agenda,.icon-book,icon-pushpin {
     font-size: 3rem;
 }
 
