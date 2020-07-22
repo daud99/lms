@@ -41,7 +41,7 @@
                             <li>
                                 <a href="{% url "dashboard:events" %}">Event</a> <span class="divider">&nbsp;</span>
                             </li>
-							<li><a href="#">Add Event Category</a><span class="divider-last">&nbsp;</span></li>
+							<li><a href="#">Edit Event</a><span class="divider-last">&nbsp;</span></li>
 						</ul>
 						<!-- END PAGE TITLE & BREADCRUMB-->
 					</div>
@@ -52,11 +52,19 @@
                   <div class="widget box blue" id="form_wizard_1">
                      <div class="widget-title">
                         <h4>
-                           <i class="icon-reorder"></i> Create Event - <span class="step-title">Step 1 of 2</span>
+                           <i class="icon-reorder"></i> Edit Event - <span class="step-title">Step 1 of 2</span>
                         </h4>
 
                      </div>
                      <div class="widget-body form">
+                     <div class="row-fluid">
+                        <div class="span10 offset1">
+                            <h1>Instructions</h1>
+                            <p>
+                                In case if you submit any new image while editing all the previous images will be deleted for the respective event. Moreover, if you don't want to change the previously set event location simply don't set it.
+                            </p>
+                        </div>
+                    </div>
                         <form class="form-horizontal" method="POST" enctype="multipart/form-data">
                            <div class="form-wizard">
                               <div class="navbar steps">
