@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% extends 'dashboard/base.html' %}
+{% load mapbox_location_field_tags %}
+{% location_field_includes %}
 {% load static %}
 {% block content %}
 
@@ -195,21 +197,19 @@
                                           <span class="help-inline"></span>
                                        </div>
                                     </div>
-{#                                     <div class="control-group">#}
-{#                                         <label class="control-label">Location</label>#}
-{#                                        <div class="span6">#}
-{#                                            <!-- BEGIN BASIC PORTLET-->#}
-{#                                            <div class="widget">#}
-{#                                                <div class="widget-title">#}
-{#                                                    <h4><i class="icon-search"></i>Add location</h4>#}
-{#                                                </div>#}
-{#                                                <div class="widget-body">#}
-{#                                                    <div id="gmap_basic" class="gmaps" style="height: 300px!important; width: 100%!important;"></div>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                            <!-- END BASIC PORTLET-->#}
-{#                                        </div>#}
-{#                                    </div>#}
+                                      <div class="control-group">
+                                          <label class="control-label">{{form.label}}</label>
+                                          <div class="controls">
+                                           {{form}}
+                                          </div>
+                                         <div class="space20"></div>
+                                          <div class="controls">
+                                              {{ form.media }}
+                                          </div>
+                                          <div class="space20"></div>
+                                      </div>
+
+
                                  </div>
                               </div>
                               <div class="form-actions clearfix">

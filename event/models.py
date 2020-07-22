@@ -2,6 +2,7 @@ from django.db import models
 from account.models import User
 from django.utils import timezone
 from jsonfield import JSONField
+from mapbox_location_field.models import LocationField
 
 
 # Create your models here.
@@ -59,3 +60,6 @@ class EventImage(models.Model):
     def __str__(self):
         return self.image_url
 
+
+class Location(models.Model):
+    location = LocationField(map_attrs={"center": [17.031645, 51.106715], "marker_color": "blue", "zoom": 2, "cursor_style": "pointer", "readonly": True})

@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from jsonfield import JSONField
+
 
 from .managers import CustomUserManager
 
@@ -30,14 +32,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=255)
     job_category_id = models.CharField(max_length=255, default='1')
     organization_id = models.CharField(max_length=255, default='1')
-    image_url = models.CharField(max_length=1000)
-    fcm_id = models.PositiveIntegerField()
-    os_type = models.PositiveIntegerField()
-    device_unique_id = models.PositiveIntegerField()
-    notification_status = models.PositiveIntegerField()
+    image_url = models.CharField(max_length=1000, blank=True)
+    fcm_id = models.PositiveIntegerField(blank=True)
+    os_type = models.PositiveIntegerField(blank=True)
+    device_unique_id = models.PositiveIntegerField(blank=True)
+    notification_status = models.PositiveIntegerField(blank=True)
+    location = JSONField(blank=True, default={})
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
-    status = models.PositiveIntegerField()
+    status = models.PositiveIntegerField(blank=True)
     role = models.ForeignKey(UserRole, related_name="user_role_related_name", on_delete=models.CASCADE)
 
     USERNAME_FIELD = 'email'

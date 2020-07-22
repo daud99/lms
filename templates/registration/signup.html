@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load mapbox_location_field_tags %}
+{% location_field_includes %}
 {% block content %}
 
   <!-- BEGIN LOGIN -->
@@ -9,6 +11,7 @@
           <h1><a href="{% url "login" %}">Log In</a></h1>
       </div>
   </div>
+
     <!-- BEGIN FORGOT PASSWORD FORM -->
     <form id="forgotform" class="form-vertical no-padding no-margin" method="POST" action="/signup/" enctype="multipart/form-data">
     {% if form.errors %}
@@ -18,7 +21,6 @@
       {% endfor %}
     </ul>
    {% endif %}
-{#      <p class="center">Enter your e-mail address below to reset your password.</p>#}
     <div class="control-group">
             <div class="controls">
                 <div class="fileupload fileupload-new" data-provides="fileupload">
@@ -75,33 +77,22 @@
       </div>
 
       <div class="row-fluid">
-            <div class="span">
-                <!-- BEGIN BASIC PORTLET-->
-                <div class="widget">
-                    <div class="widget-title">
-                        <h4><i class="icon-search"></i>Select your location</h4>
-                    </div>
-                    <div class="widget-body">
-                        <div id="gmap_basic" class="gmaps"></div>
-                    </div>
-                </div>
-                <!-- END BASIC PORTLET-->
-            </div>
-        </div>
+          <div class="control-group">
+               {{form}}
+          </div>
+          {{ form.media }}
+          <div class="space20"></div>
+      </div>
          <div class="control-group">
+             <label class="control-label">Select User Role</label>
           <div class="controls">
              <select class="chosen span4" data-placeholder="Select user role..." tabindex="1" name="role" required>
                 <option value=""></option>
                     <option value="student"
-{#                    {% if values.role == "student" %}#}
+                    {% if values.role == "student" %}
                          selected
-{#                    {% endif %}#}
+                    {% endif %}
                     >Student</option>
-{#                    <option value="trainer"#}
-{#                    {% if values.role == "trainer" %}#}
-{#                         selected#}
-{#                    {% endif %}#}
-{#                    >Trainer</option>#}
              </select>
              <div class="space20"></div>
           </div>
@@ -110,6 +101,8 @@
       <input type="submit" class="btn btn-block login-btn" value="Sign UP" />
     </form>
     <!-- END FORGOT PASSWORD FORM -->
+
+
 
   </div>
   <!-- END LOGIN -->

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from account.models import User, UserRole
+from event.forms import LocationForm
+from account.forms import CustomUserCreationForm
 from LMS import common
 
 # Create your views here.
@@ -36,6 +38,7 @@ def login(request):
 @login_excluded("dashboard:index")
 def signup(request):
     if request.method == "POST":
+        location = common.processLocation(request.POST["location"])
         email = request.POST['email']
         full_name = request.POST['full_name']
         password = request.POST['password']
@@ -54,7 +57,7 @@ def signup(request):
                 if UserRole.objects.filter(role_name=role).exists():
                     common.uploadImageToFTP(image.name, image)
                     user_role = UserRole.objects.get(role_name=role)
-                    user = User.objects.create_user(email=email, password=password, full_name=full_name, role=user_role, image_url=image.name)
+                    user = User.objects.create_user(email=email, password=password, full_name=full_name, role=user_role, image_url=image.name, location= location)
                     user.save()
                     messages.success(request, 'You are now successfully register and log in')
                     return redirect('login')
@@ -70,6 +73,11 @@ def signup(request):
             return render(request, 'registration/signup.html', context=context)
 
     else:
-        return render(request, 'registration/signup.html')
+        form = LocationForm()
+        context = {
+            "form": form
+        }
+        return render(request, 'registration/signup.html', context)
+
 
 

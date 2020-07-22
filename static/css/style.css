@@ -3953,3 +3953,15 @@ jQuery UI Datepicker(new in v1.2.2)
 .iconi:before {
     font-size: 2rem;
 }
+
+.mapboxgl-ctrl-geocoder--icon.mapboxgl-ctrl-geocoder--icon-search {
+    display: none;
+}
+
+.mapboxgl-ctrl-geocoder--input {
+    margin-bottom: 0px!important;
+}
+
+#map.js-mapbox-input-location-field {
+    margin-bottom: 1rem;
+}

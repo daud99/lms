@@ -32,6 +32,10 @@ EMAIL_HOST_PASSWORD = 'daud868819'
 EMAIL_PORT = 587
 DEFAULT_FROM_EMAIL = 'Roche Team <admin@roche.com>'
 
+# Key for map
+MAPBOX_KEY = "pk.eyJ1IjoiZGF1ZGFobWVkIiwiYSI6ImNrY3gzNG10ZDBrN3kydHJwc3lzd20yeTIifQ.cx574AlQZYO-AvIrR_57Aw"
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -56,7 +60,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'event',
-    'dashboard'
+    'dashboard',
+    'mapbox_location_field'
 ]
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

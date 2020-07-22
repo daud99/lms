@@ -44,3 +44,10 @@ def user_is_loggedin_and_is_admin_or_trainer(func):
                 return func(args[0])
     return wrapper
 
+def processLocation(location):
+    if location:
+        event_location = {"type": "Point"}
+        event_location["coordinates"] = location.split(",")
+        return event_location
+    else:
+        return {}

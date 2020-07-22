@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from event.models import EventCategories, EventImage, Event
+from event.forms import LocationForm
 from account.models import User
 from LMS import common
 from datetime import datetime
@@ -131,6 +132,7 @@ def addEvent(request):
         end_time = request.POST["end_time"]
         end_date = request.POST["end_date"]
         ec = request.POST["event_category"]
+        event_location = common.processLocation(request.POST["location"])
         start_date_time = start_date + " " + start_time
         end_date_time = end_date + " " + end_time
         try:
@@ -148,6 +150,7 @@ def addEvent(request):
             event_obj["event_end_date"] = datetime.strptime(end_date_time, "%m-%d-%Y %I:%M %p")
 
         event_obj["event_agenda"] = json.dumps(agenda)
+        event_obj["event_location"] = event_location
         try:
             event_category = EventCategories.objects.get(category_name=ec)
             current_user = User.objects.get(email=request.user.email)
@@ -183,8 +186,9 @@ def addEvent(request):
             print("Exception while saving event")
             print(e)
     else:
+        form = LocationForm()
         event_categories = EventCategories.objects.all()
-        context = {"event_categories": event_categories}
+        context = {"event_categories": event_categories, 'form': form}
         return render(request, "event/add_event.html", context=context)
 
 @login_required(login_url="login")
@@ -227,3 +231,24 @@ def deleteEvent(request, id):
             common.downloadImageFromFTP(str(each))
     context = {"events": events}
     return render(request, "event/events.html", context=context)
+
+
+def testMap(request):
+    print("yes here")
+    if request.method == 'POST':
+        form = LocationForm(request.POST)
+        if form.is_valid():
+            print(form)
+            # creatingEmailMonitoringReport.delay(request.FILES['file'], request.user.id)
+            # p1 = threading.Thread(target=handle_uploaded_file, args=[request.FILES['file'], request.user.id, request.user.email])
+            # p1.start()
+            messages.success(request, 'form received successfully')
+            # print(request.FILES['file'])
+            # return HttpResponseRedirect('/adminpanel/generate/report')
+    else:
+        form = LocationForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'event/test.html', context)

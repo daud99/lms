@@ -14,5 +14,6 @@ urlpatterns = [
     path('event/edit/category/<int:id>', event_views.editEventCategory, name="edit_event_category"),
     path('event/delete/category/<int:id>', event_views.deleteEventCategory, name="delete_event_category"),
     path('event/categories', event_views.listEventCategories, name="event_categories"),
+    path('test', event_views.testMap, name="test"),
 ]
 
