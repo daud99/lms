@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from account.models import User, UserRole
 from LMS import common
-import ftplib
 
 # Create your views here.
 

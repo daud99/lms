@@ -23,6 +23,15 @@ FTP_HOST = 'tms.itcomlive.com'
 FTP_USER = 'eventimages'
 FTP_PASSWORD = 'yn71%3Nv'
 
+# SMTP SERVER
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'thedarkbot9@gmail.com'
+EMAIL_HOST_PASSWORD = 'daud868819'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'Roche Team <thedarkbot9@gmail.com>'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -49,6 +58,8 @@ INSTALLED_APPS = [
     'event',
     'dashboard'
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
