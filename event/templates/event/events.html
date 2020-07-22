@@ -61,7 +61,7 @@
                                        <h4><img src="{% static "img/"|addstr:event.event_category.category_image_url %}" alt="category_image" class="event-category-icon"> {{ event.event_category.category_name }}</h4>
                                          {% if user.role.role_name == "trainer" or user.role.role_name == "admin" %}
                                        <span class="tools event-tools">
-                                       <a href="javascript:;" class="icon-chevron-down iconi"></a><a href="{{ "#myModal"|addstr:event.id }}" data-toggle="modal" class="icon-trash iconi"></a>
+                                       <a href="{% url 'dashboard:edit_event' event.id %}" class="icon-edit iconi"></a><a href="javascript:;" class="icon-chevron-down iconi"></a><a href="{{ "#myModal"|addstr:event.id }}" data-toggle="modal" class="icon-trash iconi"></a>
                                        </span>
                                         {% endif %}
                                     </div>
@@ -87,9 +87,11 @@
                                                      </div>
                                                      <div class="span10 event-font">
                                                          <strong>{{ event.event_location|parseLogLat:'' }}</strong>
+                                                         {% if event.event_location %}
                                                           <div class="padding-me">
                                                               <a href="{{ event.event_location|addWithComma:"http://maps.google.com/?q=" }}" target="_blank">View in Google map</a>
                                                             </div>
+                                                         {% endif %}
                                                      </div>
                                                  </div>
                                             </div>

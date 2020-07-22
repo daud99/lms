@@ -220,7 +220,7 @@
         height: 68px !important;
     }
     .navbar-inverse .brand, .navbar-inverse .nav > li > a{
-        color: #fff !important;
+        /*color: #fff !important;*/
     }
 
     .navbar-inverse .nav li.dropdown > .dropdown-toggle .caret {

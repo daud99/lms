@@ -103,6 +103,114 @@ def deleteEventCategory(request, id):
     context = {"event_categories": event_categories}
     return render(request, "event/event_categories.html", context=context)
 
+@common.user_is_loggedin_and_is_admin_or_trainer
+def editEvent(request, id):
+    if request.method == "POST":
+        fields = ["event_name", "event_description", "event_scheduled_status", "event_venue", "event_points",
+                  "event_maximum_attende"]
+        event_obj = {}
+        agenda = []
+        agenda_count = 0
+        for each in request.POST:
+            if each in fields:
+                event_obj[each] = request.POST[each]
+            else:
+                if "session_name" in each:
+                    agenda.append({"sessionName": request.POST[each]})
+                elif "speaker_name" in each:
+                    agenda[agenda_count]["speakerName"] = request.POST[each]
+                elif "agenda_start" in each:
+                    agenda[agenda_count]["startTime"] = request.POST[each]
+                elif "agenda_end" in each:
+                    agenda[agenda_count]["endTime"] = request.POST[each]
+                elif "venu_name" in each:
+                    agenda[agenda_count]["venueName"] = request.POST[each]
+                    agenda_count = agenda_count + 1
+        start_time = request.POST["start_time"]
+        start_date = request.POST["start_date"]
+        end_time = request.POST["end_time"]
+        end_date = request.POST["end_date"]
+        ec = request.POST["event_category"]
+        event_location = common.processLocation(request.POST["location"])
+        start_date_time = start_date + " " + start_time
+        end_date_time = end_date + " " + end_time
+        try:
+            event_obj["event_start_date"] = datetime.strptime(start_date_time, "%m/%d/%Y %I:%M %p")
+        except Exception as e:
+            print("Excpetion while parsing date")
+            print(e)
+            event_obj["event_start_date"] = datetime.strptime(start_date_time, "%m-%d-%Y %I:%M %p")
+
+        try:
+            event_obj["event_end_date"] = datetime.strptime(end_date_time, "%m/%d/%Y %I:%M %p")
+        except Exception as e:
+            print("Excpetion while parsing date")
+            print(e)
+            event_obj["event_end_date"] = datetime.strptime(end_date_time, "%m-%d-%Y %I:%M %p")
+
+        event_obj["event_agenda"] = json.dumps(agenda)
+        if event_location:
+            event_obj["event_location"] = event_location
+        try:
+            event_category = EventCategories.objects.get(category_name=ec)
+            current_user = User.objects.get(email=request.user.email)
+            event_obj["updated_user"] = current_user
+            event_obj["event_category"] = event_category
+            try:
+                Event.objects.filter(id=id).update(**event_obj)
+            except Exception as e:
+                print("Exception while updating event")
+                print(e)
+                messages.error(request, "Make sure event name and venue is UNIQUE!")
+                try:
+                    form = LocationForm()
+                    event = Event.objects.get(id=id)
+                    event_categories = EventCategories.objects.all()
+                    context = {"event": event, "event_categories": event_categories, 'form': form}
+                    return render(request, 'event/edit_event.html', context=context)
+                except Exception as e:
+                    messages.error(request, "Error!")
+                    print("Exception while getting Event for editing")
+                    print(e)
+                return render(request, "event/events.html")
+            events = Event.objects.all()
+            if "event_images" in request.FILES:
+                for image in request.FILES.getlist("event_images"):
+                    try:
+                        event = Event.objects.get(id=id)
+                        EventImage.objects.filter(event=event).delete()
+                        common.uploadImageToFTP(image.name, image)
+                        ei = EventImage(event=event, image_url=image.name, created_user=current_user,
+                                        updated_user=current_user)
+                        ei.save()
+                    except Exception as e:
+                        print("Exception while saving event image")
+                        print(e)
+                for event in events:
+                    for each in event.event_image_event.all():
+                        common.downloadImageFromFTP(str(each))
+                context = {"events": events}
+                return render(request, "event/events.html", context=context)
+        except Exception as e:
+            print("Exception while editing event")
+            print(e)
+            messages.error(request, "Something went wrong while editing")
+        context = {"events": events}
+        messages.success(request, "Event updated successfully")
+        return render(request, "event/events.html", context=context)
+    else:
+        form = LocationForm()
+        try:
+            event = Event.objects.get(id=id)
+            event_categories = EventCategories.objects.all()
+            context = {"event": event, "event_categories": event_categories, 'form': form}
+        except Exception as e:
+            messages.error(request, "Error!")
+            print("Exception while getting Event for editing")
+            print(e)
+        return render(request, 'event/edit_event.html', context=context)
+
+
 
 @common.user_is_loggedin_and_is_admin_or_trainer
 def addEvent(request):
@@ -185,6 +293,7 @@ def addEvent(request):
         except Exception as e:
             print("Exception while saving event")
             print(e)
+        return render(request, "event/events.html")
     else:
         form = LocationForm()
         event_categories = EventCategories.objects.all()

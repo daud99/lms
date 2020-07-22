@@ -6,7 +6,6 @@ import urllib.request as urllib
 from pathlib import Path
 import requests
 import os
-import json
 
 def uploadImageToFTP(image_name, image):
     try:

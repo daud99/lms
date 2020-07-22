@@ -1,0 +1,280 @@
+{% extends 'dashboard/base.html' %}
+{% load mapbox_location_field_tags %}
+{% location_field_includes %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+
+    <!-- BEGIN PAGE -->
+		<div id="main-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE CONTENT-->
+				<div id="page" class="dashboard">
+                    <!-- BEGIN PAGE HEADER-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN THEME CUSTOMIZER-->
+						<div id="theme-change" class="hidden-phone">
+							<i class="icon-cogs"></i>
+							<span class="settings">
+                                <span class="text">Theme:</span>
+                                <span class="colors">
+                                    <span class="color-default" data-style="default"></span>
+                                    <span class="color-gray" data-style="gray"></span>
+                                    <span class="color-purple" data-style="purple"></span>
+                                    <span class="color-navy-blue" data-style="navy-blue"></span>
+                                </span>
+							</span>
+						</div>
+						<!-- END THEME CUSTOMIZER-->
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<h3 class="page-title">
+							Event
+							<small>  </small>
+						</h3>
+						<ul class="breadcrumb">
+							<li>
+                                <a href="{% url "dashboard:events" %}"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+							</li>
+                            <li>
+                                <a href="{% url "dashboard:events" %}">Event</a> <span class="divider">&nbsp;</span>
+                            </li>
+							<li><a href="#">Add Event Category</a><span class="divider-last">&nbsp;</span></li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+            <div class="row-fluid">
+               <div class="span12">
+                  <div class="widget box blue" id="form_wizard_1">
+                     <div class="widget-title">
+                        <h4>
+                           <i class="icon-reorder"></i> Create Event - <span class="step-title">Step 1 of 2</span>
+                        </h4>
+
+                     </div>
+                     <div class="widget-body form">
+                        <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                           <div class="form-wizard">
+                              <div class="navbar steps">
+                                 <div class="navbar-inner">
+                                    <ul class="row-fluid">
+                                       <li class="span3">
+                                          <a href="#tab1" data-toggle="tab" class="step active">
+                                          <span class="number">1</span>
+                                          <span class="desc"><i class="icon-ok"></i> Step 1</span>
+                                          </a>
+                                       </li>
+                                       <li class="span3">
+                                          <a href="#tab4" data-toggle="tab" class="step">
+                                          <span class="number">2</span>
+                                          <span class="desc"><i class="icon-ok"></i> Final Step</span>
+                                          </a>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                              <div id="bar" class="progress progress-striped">
+                                 <div class="bar"></div>
+                              </div>
+                              <div class="tab-content">
+                                 <div class="tab-pane active special-handler" id="tab1">
+                                    <h3>Create Event</h3>
+                                    <div class="control-group">
+                                      <label class="control-label">Event Category</label>
+                                      <div class="controls">
+                                         <select class="span6 chosen" data-placeholder="Choose a Category" tabindex="1" name="event_category" required>
+                                            <option value=""></option>
+                                             {% for category in event_categories %}
+                                                <option
+                                                        {% if category.category_name == event.event_category %}
+                                                            selected
+                                                        {% endif %}
+                                                        value="{{category.category_name}}">{{category.category_name}}</option>
+                                             {% endfor %}
+                                         </select>
+                                      </div>
+                                   </div>
+                                    <div class="control-group">
+                                       <label class="control-label">Event name</label>
+                                       <div class="controls">
+                                          <input type="text" class="span6" name="event_name" value="{{ event.event_name }}" required/>
+                                          <span class="help-inline"></span>
+                                       </div>
+                                    </div>
+                                     <div class="control-group">
+                                       <label class="control-label">Event Description</label>
+                                       <div class="controls">
+                                           <textarea class="span6" rows="4" name="event_description" required>{{ event.event_description }}</textarea>
+                                          <span class="help-inline"></span>
+                                       </div>
+                                    </div>
+                                     <div class="control-group">
+                                         <label class="control-label">Add photos</label>
+                                           <div class="uploader__box js-uploader__box l-center-box span8">
+                                                    <div class="uploader__contents">
+                                                        <label class="button button--secondary" for="fileinput">Select Images</label>
+                                                        <input id="fileinput" class="uploader__file-input" name="event_images" type="file" multiple>
+                                                    </div>
+                                            </div>
+                                            <div class="space20"></div>
+                                    </div>
+                                 {% if event.event_agenda|length > 2  %}
+                                     {% for agenda in event.event_agenda|parsejson:"" %}
+                                   <div class="row-fluid" id="event-agenda">
+                                       <div class="span12">
+                                          <div class="widget">
+                                             <div class="widget-title">
+                                                <h4><i class="icon-reorder"></i>Event Agenda</h4>
+                                                <span class="tools"><a href="javascript:;" class="icon-chevron-down"></a><a href="javascript:;" class="icon-remove remove-me"></a></span>
+                                             </div>
+                                             <div class="widget-body form">
+                                                <div class="control-group">
+                                                   <label class="control-label">Session Name</label>
+                                                   <div class="controls"><input type="text" class="span6" name="{{"session_name"|addstr:forloop.counter}}" value="{{ agenda.sessionName }}" required/><span class="help-inline"></span></div>
+                                                </div>
+                                                <div class="control-group">
+                                                   <label class="control-label">Speaker Name</label>
+                                                   <div class="controls"><input type="text" class="span6" name="{{"speaker_name"|addstr:forloop.counter}}" value="{{ agenda.speakerName }}" required/><span class="help-inline"></span></div>
+                                                </div>
+                                                <div class="control-group">
+                                                   <label class="control-label">Start Time</label>
+                                                   <div class="controls">
+                                                      <div class="input-append bootstrap-timepicker-component"><input class=" m-ctrl-small timepicker-default" type="text" name="{{"agenda_start_time"|addstr:forloop.counter}}" value="{{ agenda.startTime }}" required/><span class="add-on"><i class="icon-time"></i></span></div>
+                                                   </div>
+                                                </div>
+                                                <div class="control-group">
+                                                   <label class="control-label">End Time</label>
+                                                   <div class="controls">
+                                                      <div class="input-append bootstrap-timepicker-component"><input class=" m-ctrl-small timepicker-default" type="text" name="{{"agenda_end_time"|addstr:forloop.counter}}" value="{{ agenda.endTime }}" required/><span class="add-on"><i class="icon-time"></i></span></div>
+                                                   </div>
+                                                </div>
+                                                <div class="control-group">
+                                                   <label class="control-label">Venue Name</label>
+                                                   <div class="controls"><input type="text" class="span6" name="{{"venu_name"|addstr:forloop.counter}}" value="{{ agenda.venueName }}" required/><span class="help-inline"></span></div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       </div>
+                                     {% endfor %}
+                                 {% endif %}
+                                 </div>
+                                 <div class="tab-pane" id="tab4">
+                                    <h4>Final step</h4>
+                                    <div class="control-group">
+                                      <label class="control-label">Event Status</label>
+                                      <div class="controls">
+                                         <select class="chosen" data-placeholder="Choose event status" tabindex="1" name="event_scheduled_status" required>
+                                            <option value=""></option>
+                                                <option value="0"
+                                                    {% if event.event_scheduled_status == 0 %}
+                                                    selected
+                                                    {% endif %}
+                                                >Yet to schedule</option>
+                                                <option value="1"
+                                                    {% if event.event_scheduled_status == 1 %}
+                                                    selected
+                                                    {% endif %}
+                                                >Scheduled</option>
+                                         </select>
+                                      </div>
+                                   </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Event Start Time</label>
+                                        <div class="controls">
+                                            <div class="input-append bootstrap-timepicker-component">
+                                                <input class="m-ctrl-small timepicker-default" type="text" name="start_time" placeholder="Select start time" value="{{ event.start_time }}" required/>
+                                                <span class="add-on"><i class="icon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Event Start Date</label>
+                                        <div class="controls">
+                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select start date" name="start_date" value="{{ event.start_date }}" required/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Event End Time</label>
+                                        <div class="controls">
+                                            <div class="input-append bootstrap-timepicker-component">
+                                                <input class="m-ctrl-small timepicker-default" type="text" placeholder="Select end time" name="end_time" value="{{ event.end_time }}" required/>
+                                                <span class="add-on"><i class="icon-time"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Event End Date</label>
+                                        <div class="controls">
+                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select end date" name="end_date" value="{{ event.end_date }}" required/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                       <label class="control-label">Event Venue</label>
+                                       <div class="controls">
+                                          <input type="text" class="span6" name="event_venue" value="{{ event.event_venue }}" required/>
+                                          <span class="help-inline"></span>
+                                       </div>
+                                    </div>
+                                    <div class="control-group">
+                                       <label class="control-label">Event Points</label>
+                                       <div class="controls">
+                                          <input type="number" class="span6" name="event_points" value="{{ event.event_points }}" required/>
+                                          <span class="help-inline"></span>
+                                       </div>
+                                    </div>
+                                    <div class="control-group">
+                                       <label class="control-label">Event Capacity</label>
+                                       <div class="controls">
+                                          <input type="number" class="span6" name="event_maximum_attende" value="{{ event.event_maximum_attende }}" required/>
+                                          <span class="help-inline"></span>
+                                       </div>
+                                    </div>
+                                      <div class="control-group">
+                                          <label class="control-label">{{form.label}}</label>
+                                          <div class="controls">
+                                           {{form}}
+                                          </div>
+                                         <div class="space20"></div>
+                                          <div class="controls">
+                                              {{ form.media }}
+                                          </div>
+                                          <div class="space20"></div>
+                                      </div>
+
+
+                                 </div>
+                              </div>
+                              <div class="form-actions clearfix">
+                                 <a href="javascript:;" class="btn button-previous">
+                                 <i class="icon-angle-left"></i> Back
+                                 </a>
+                                 <a href="javascript:;" class="btn btn-primary blue button-next">
+                                 Continue <i class="icon-angle-right"></i>
+                                 </a>
+{#                                 <a type="submit" class="btn btn-success button-submit">#}
+{#                                 Submit <i class="icon-ok"></i>#}
+                                        {% csrf_token %}
+
+                                 <button type="submit" class="btn btn-success button-submit">
+                                     Submit <i class="icon-ok"></i></button>
+
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+				</div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+{% endblock %}
