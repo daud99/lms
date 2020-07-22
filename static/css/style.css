@@ -3965,3 +3965,7 @@ jQuery UI Datepicker(new in v1.2.2)
 #map.js-mapbox-input-location-field {
     margin-bottom: 1rem;
 }
+
+#event-agenda .control-label {
+    float: none;
+}

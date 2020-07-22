@@ -155,7 +155,7 @@
 
             var action = $(e.target).closest('a').data('action');
             if (action) {
-                this[action]();
+                this[action]()
                 this.update();
             }
         }
