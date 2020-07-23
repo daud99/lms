@@ -81,7 +81,7 @@
                                                          <strong>{{ event.event_start_date }}</strong>
                                                      </div>
                                                  </div>
-                                                <div class="space20"></div>
+                                                <div class="space10"></div>
                                                 <div class="row-fluid">
                                                      <div class="span1 offset1 event-font">
                                                          <i class="icon-map-marker icon-calendar-event"></i>
@@ -89,7 +89,8 @@
                                                      <div class="span10 event-font">
                                                          <strong>{{ event.event_location|parseLogLat:'' }}</strong>
                                                          {% if event.event_location %}
-                                                          <div class="padding-me">
+                                                             <div class="space5"></div>
+                                                          <div>
                                                               <a href="{{ event.event_location|addWithComma:"http://maps.google.com/?q=" }}" target="_blank">View in Google map</a>
                                                             </div>
                                                          {% endif %}
@@ -98,12 +99,10 @@
                                             </div>
                                         </div>
                                         <div class="row-fluid">
-                                            <div class="span2 offset10">
+                                            <div class="span4 offset8">
                                                 <a href="{% url "dashboard:event_detail" id %}" class="btn btn-info">Show event details</a>
                                             </div>
                                         </div>
-                                        <div class="space20"></div>
-
 {#                                        <div class="pagination pagination-centered">#}
 {#                                            <ul>#}
 {#                                                <li><a href="javascript:;">«</a></li>#}

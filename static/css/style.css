@@ -3871,14 +3871,14 @@ jQuery UI Datepicker(new in v1.2.2)
 /* daud's css */
 
 .event-category-icon {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
 .events .override-widget-title {
-    height: 70px;
-    font-size: 50px;
+    height: 50px;
+    font-size: 30px;
 
 }
 
@@ -3893,11 +3893,11 @@ jQuery UI Datepicker(new in v1.2.2)
 }
 
 .events .override-widget-title span.tools {
-    height: 70px;
+    height: 50px;
 }
 
 .events .event-last-added-image {
-    max-height: 300px;
+    max-height: 200px;
 }
 
 .events .event-time-showcase {
@@ -3933,16 +3933,16 @@ jQuery UI Datepicker(new in v1.2.2)
 }
 
 .events .event-heading {
-    font-size: 3rem;
+    font-size: 2rem;
     font-weight: bolder;
     text-transform: uppercase;
     display: block;
-    padding: 1rem;
+    padding: 0.3rem;
     color: #2badb6;
 }
 
 .events .event-font {
-    font-size: 2rem;
+    font-size: 1.5rem;
     vertical-align: middle;
 }
 
@@ -3951,7 +3951,7 @@ jQuery UI Datepicker(new in v1.2.2)
 }
 
 .iconi:before {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .mapboxgl-ctrl-geocoder--icon.mapboxgl-ctrl-geocoder--icon-search {
