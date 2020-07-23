@@ -15,3 +15,6 @@ celerybeat-schedule.*
 venv/*
 reports/
 logs/*
+account/migrations/*
+dashboard/migrations/*
+event/migrations/*
