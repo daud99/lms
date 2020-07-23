@@ -53,7 +53,11 @@
 				</div>
 				<!-- END PAGE HEADER-->
                 {% if event_categories %}
+
+
+
                     {% for category in event_categories %}
+                        {% with id=category|get:'_id' %}
                  <div class="row-fluid">
                         <div class="span12">
                             <!-- BEGIN GRID SAMPLE PORTLET-->
@@ -62,8 +66,8 @@
                                     <h4 class="event-category-heading">{{ category.category_name }}</h4>
                                      {% if user.role.role_name == "trainer" or user.role.role_name == "admin" %}
                                         <span class="tools">
-                                        <a href="{% url 'dashboard:edit_event_category' category.id %}" class="icon-edit"></a>
-                                        <a href="{{ "#myModal"|addstr:category.id }}" data-toggle="modal" class="icon-trash"></a>
+                                        <a href="{% url 'dashboard:edit_event_category' id  %}" class="icon-edit"></a>
+                                        <a href="{{ "#myModal"|addstr:id }}" data-toggle="modal" class="icon-trash"></a>
                                         </span>
                                     {% endif %}
                                 </div>
@@ -79,7 +83,7 @@
                                            <h2><strong>Category Code</strong></h2>
                                        </div>
                                         <div class="span6">
-                                            <span style="font-size: 22px;">585414</span>
+                                            <span style="font-size: 22px;">{{category.category_code}}</span>
                                        </div>
                                        <div class="space5"></div>
                                    </div>
@@ -145,7 +149,7 @@
                         </div>
                  </div>
                          <!-- BEGIN MODAL DIALOG PORTLET-->
-                          <div id="{{ "myModal"|addstr:category.id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
+                          <div id="{{ "myModal"|addstr:id }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     <h3 id="myModalLabel3">Confirm Deletion</h3>
@@ -155,10 +159,11 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button class="btn" data-dismiss="modal" aria-hidden="true">No</button>
-                                    <a href="{% url 'dashboard:delete_event_category' category.id %}" class="btn btn-danger">Yes</a>
+                                    <a href="{% url 'dashboard:delete_event_category' id %}" class="btn btn-danger">Yes</a>
                                 </div>
                             </div>
                             <!-- END MODAL DIALOG PORTLET-->
+                        {% endwith %}
                     {% endfor %}
                 {% endif %}
 

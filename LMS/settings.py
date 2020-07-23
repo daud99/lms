@@ -106,12 +106,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'ENFORCE_SCHEMA': False,
-        'NAME': 'lms',
-        'HOST': 'mongodb://localhost:27017/lms',
+        'NAME': 'lmss',
+        'HOST': 'mongodb://localhost:27017/lmss',
         'PORT': 27017,
-        'USER': 'daud',
-        'PASSWORD': 'daud123'
+        # 'USER': 'daud',
+        # 'PASSWORD': 'daud123'
     }
+# 'default': {
+#         'ENGINE': 'djongo',
+#         'ENFORCE_SCHEMA': False,
+#         'NAME': 'lms',
+#         #'HOST': 'mongodb://localhost:27017/lms',
+#         'HOST': 'mongodb+srv://safeer:SafyAIP@cluster0-b9fok.mongodb.net/db_Test?retryWrites=true&w=majority',
+#         'PORT': 27017,
+#         'USER': 'roche',
+#         'PASSWORD': '5EnoGTtUp3hjVdRn'
+#     }
 }
 
 

@@ -93,13 +93,13 @@
                                     <h3>Create Event</h3>
                                     <div class="control-group">
                                       <label class="control-label">Event Category</label>
-                                      <div class="controls">
-                                         <select class="span6 chosen" data-placeholder="Choose a Category" tabindex="1" name="event_category" required>
+                                        <div class="controls">
+                                         <select class="span6 chosen" data-placeholder="{{ event.event_category }}" tabindex="1" name="event_category" value="{{ event.event_category }}" required>
                                             <option value=""></option>
                                              {% for category in event_categories %}
                                                 <option
-                                                        {% if category.category_name == event.event_category %}
-                                                            selected
+                                                        {% if category.category_name|addstr:'' == event.event_category|addstr:'' %}
+                                                            selected=""
                                                         {% endif %}
                                                         value="{{category.category_name}}">{{category.category_name}}</option>
                                              {% endfor %}
@@ -130,14 +130,16 @@
                                             </div>
                                             <div class="space20"></div>
                                     </div>
-                                 {% if event.event_agenda|length > 2  %}
-                                     {% for agenda in event.event_agenda|parsejson:"" %}
+                                 {% if event.event_agenda  %}
+                                     {% for agenda in event.event_agenda %}
                                    <div class="row-fluid" id="event-agenda">
                                        <div class="span12">
                                           <div class="widget">
                                              <div class="widget-title">
                                                 <h4><i class="icon-reorder"></i>Event Agenda</h4>
-                                                <span class="tools"><a href="javascript:;" class="icon-chevron-down"></a><a href="javascript:;" class="icon-remove remove-me"></a></span>
+                                                <span class="tools">
+                                                    <a href="javascript:;" class="special icon-remove remove-me"></a>
+                                                </span>
                                              </div>
                                              <div class="widget-body form">
                                                 <div class="control-group">
@@ -195,7 +197,7 @@
                                         <label class="control-label">Event Start Time</label>
                                         <div class="controls">
                                             <div class="input-append bootstrap-timepicker-component">
-                                                <input class="m-ctrl-small timepicker-default" type="text" name="start_time" placeholder="Select start time" value="{{ event.start_time }}" required/>
+                                                <input class="m-ctrl-small timepicker-default" type="text" name="start_time" placeholder="Select start time" value="{{ event.event_start_date }}" required/>
                                                 <span class="add-on"><i class="icon-time"></i></span>
                                             </div>
                                         </div>
@@ -203,14 +205,14 @@
                                     <div class="control-group">
                                         <label class="control-label">Event Start Date</label>
                                         <div class="controls">
-                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select start date" name="start_date" value="{{ event.start_date }}" required/>
+                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select start date" name="start_date" value="{{ event.event_start_date|parseUNIX }}" required/>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label">Event End Time</label>
                                         <div class="controls">
                                             <div class="input-append bootstrap-timepicker-component">
-                                                <input class="m-ctrl-small timepicker-default" type="text" placeholder="Select end time" name="end_time" value="{{ event.end_time }}" required/>
+                                                <input class="m-ctrl-small timepicker-default" type="text" placeholder="Select end time" name="end_time" value="{{ event.event_end_date}}" required/>
                                                 <span class="add-on"><i class="icon-time"></i></span>
                                             </div>
                                         </div>
@@ -218,7 +220,7 @@
                                     <div class="control-group">
                                         <label class="control-label">Event End Date</label>
                                         <div class="controls">
-                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select end date" name="end_date" value="{{ event.end_date }}" required/>
+                                            <input class="m-ctrl-medium date-picker" size="16" type="text" placeholder="Select end date" name="end_date" value="{{ event.event_end_date|parseUNIX }}" required/>
                                         </div>
                                     </div>
                                     <div class="control-group">

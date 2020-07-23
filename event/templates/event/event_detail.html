@@ -59,9 +59,6 @@
                               <div class="widget">
                                     <div class="widget-title override-widget-title">
                                        <h4><img src="{% static "img/"|addstr:event.event_category.category_image_url %}" alt="category_image" class="event-category-icon"> {{ event.event_category.category_name }}</h4>
-                                       <span class="tools">
-                                       <a href="javascript:;" class="icon-chevron-down"></a>
-                                       </span>
                                     </div>
                                     <div class="widget-body">
                                         <div class="row-fluid blog">
@@ -92,7 +89,7 @@
                                                             </div>
                                                         </div>
                                                 </div>
-                                                {% if event.event_agenda|length > 2  %}
+                                                {% if event.event_agenda  %}
                                                 <div class="space20"></div>
                                                  <div class="event-time-showcase row-fluid color-me">
                                                         <div class="span4">
@@ -100,7 +97,7 @@
                                                         </div>
                                                 </div>
                                                 <div class="space20"></div>
-                                                 {% for agenda in event.event_agenda|parsejson:"" %}
+                                                 {% for agenda in event.event_agenda %}
                                                  <div class="row-fluid padding-me">
                                                      <div class="span4 offset1">
                                                          <i class="icon-book padding-me"></i>
