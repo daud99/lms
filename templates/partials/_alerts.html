@@ -1,0 +1,18 @@
+{% load static %}
+<link rel="stylesheet" href="{% static "css/dismissible.css" %}">
+<link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+<div id="dismissible-container">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="dismissible {{message.tags}}">
+        <i class="lni lni-32 {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}lni-warning {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}lni-checkmark-circle {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}lni-popup {% endif %}dismissible-icon"></i>
+        <div class="dismissible-message">
+            {{message}}
+        </div>
+        <button class="dismiss" data-dismiss="alert">
+            <i class="lni lni-16 lni-close"></i>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+</div>

@@ -1,0 +1,121 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- BEGIN PAGE -->
+		<div id="main-content">
+			<!-- BEGIN PAGE CONTAINER-->
+			<div class="container-fluid">
+
+				<!-- BEGIN PAGE CONTENT-->
+				<div id="page" class="dashboard">
+                    <!-- BEGIN PAGE HEADER-->
+				<div class="row-fluid">
+					<div class="span12">
+						<!-- BEGIN THEME CUSTOMIZER-->
+						<div id="theme-change" class="hidden-phone">
+							<i class="icon-cogs"></i>
+							<span class="settings">
+                                <span class="text">Theme:</span>
+                                <span class="colors">
+                                    <span class="color-default" data-style="default"></span>
+                                    <span class="color-gray" data-style="gray"></span>
+                                    <span class="color-purple" data-style="purple"></span>
+                                    <span class="color-navy-blue" data-style="navy-blue"></span>
+                                </span>
+							</span>
+						</div>
+						<!-- END THEME CUSTOMIZER-->
+						<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+						<h3 class="page-title">
+							Event
+							<small>  </small>
+						</h3>
+						<ul class="breadcrumb">
+							<li>
+                                <a href="#"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+							</li>
+                            <li>
+                                <a href="{% url "dashboard:event_categories" %}">Event Categories</a> <span class="divider">&nbsp;</span>
+                            </li>
+							<li><a href="#">Edit Event Category</a><span class="divider-last">&nbsp;</span></li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+				<!-- END PAGE HEADER-->
+				<div class="widget">
+                     <div class="widget-title">
+                        <h4><i class="icon-reorder"></i>Add Event Category</h4>
+                     </div>
+                     <div class="widget-body form">
+                        <!-- BEGIN FORM-->
+                        <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+                            <div class="control-group">
+                               <label class="control-label">Category Name</label>
+                               <div class="controls">
+                                  <input type="text" class="span6" name="category_name" value="{{ event_category.category_name }}" required/>
+                                  <span class="help-inline"></span>
+                               </div>
+                            </div>
+                            <div class="control-group">
+                               <label class="control-label">Category Code</label>
+                               <div class="controls">
+                                  <input type="number" class="span6" name="category_code" value="{{ event_category.category_code }}" required/>
+                                  <span class="help-inline"></span>
+                               </div>
+                            </div>
+                             <div class="control-group">
+                               <label class="control-label">Category Priority</label>
+                               <div class="controls">
+                                  <input type="number" class="span6" name="category_priority" value="{{ event_category.category_priority }}" required/>
+                                  <span class="help-inline"></span>
+                               </div>
+                            </div>
+                            <div class="control-group">
+								 <label class="control-label">Select Category Image</label>
+									<div class="controls">
+										<div class="fileupload fileupload-new" data-provides="fileupload">
+											<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+												<img src="{% static "img/"|add:event_category.category_image_url  %}" alt="" style="border-radius: 50%;">
+											</div>
+											<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px; display: block;"></div>
+											<div class="space20"></div>
+											<div>
+												<span class="btn btn-file"><span class="fileupload-new">Select image</span>
+												   <span class="fileupload-exists marging-btn">Change</span>
+												   <input type="file" class="default" name="category_image">
+											   </span>
+												<a href="#" class="btn fileupload-exists marging-btn" data-dismiss="fileupload">Remove</a>
+											</div>
+										</div>
+									</div>
+									<div class="space20"></div>
+							</div>
+                            <div class="control-group">
+                               <label class="control-label">status</label>
+                               <div class="controls">
+                                   <div class="basic-toggle-button">
+                                        <input type="checkbox" class="toggle" checked="checked" name="category_status"/>
+                                    </div>
+                               </div>
+                            </div>
+                           <div class="form-actions">
+                              {% csrf_token %}
+                             <button type="submit" class="btn btn-success button-submit">
+                                 Submit <i class="icon-ok"></i></button>
+                           </div>
+                        </form>
+                        <!-- END FORM-->
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+				</div>
+				<!-- END PAGE CONTENT-->
+			</div>
+			<!-- END PAGE CONTAINER-->
+		</div>
+		<!-- END PAGE -->
+{% endblock %}

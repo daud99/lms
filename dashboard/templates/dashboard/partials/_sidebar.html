@@ -1,0 +1,30 @@
+
+<!-- BEGIN SIDEBAR -->
+		<div id="sidebar" class="nav-collapse collapse">
+			<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+			<div class="sidebar-toggler hidden-phone"></div>
+			<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+			<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+			<div class="navbar-inverse">
+				<form class="navbar-search visible-phone">
+					<input type="text" class="search-query" placeholder="Search" />
+				</form>
+			</div>
+			<!-- END RESPONSIVE QUICK SEARCH FORM -->
+			<!-- BEGIN SIDEBAR MENU -->
+			<ul class="sidebar-menu">
+				<li class="has-sub active">
+					<a href="javascript:;" class="">
+					    <span class="icon-box"> <i class="icon-fire"></i></span> Event
+                        <span class="arrow"></span>
+                    </a>
+                    <ul class="sub">
+                        <li class="active"><a class="" href="{% url "dashboard:events" %}">Events</a></li>
+                        <li><a class="" href="{% url "dashboard:event_categories" %}">Event Categories</a></li>
+                    </ul>
+				</li>
+            </ul>
+			<!-- END SIDEBAR MENU -->
+		</div>
+		<!-- END SIDEBAR -->
