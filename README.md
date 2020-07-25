@@ -103,25 +103,25 @@ python manage.py createsuperuser
 1. Make sure to make changes accordingly in **LMS/settings.py**
 
    ```
-   
+
    # FTP SERVER
-   
+
    FTP_HOST = 'tms.itcomlive.com'
    FTP_USER = 'eventimages'
    FTP_PASSWORD = 'yn71%3Nv'
-   
+
    # SMTP SERVER
-   
+
    EMAIL_USE_TLS = True
    EMAIL_HOST = 'smtp.gmail.com'
    EMAIL_HOST_USER = 'thedarkbot9@gmail.com'
    EMAIL_HOST_PASSWORD = 'password'
    EMAIL_PORT = 587
    DEFAULT_FROM_EMAIL = 'Roche Team <admin@roche.com>'
-   
+
    # Key for map
    MAPBOX_KEY = "pk.eyJ1IjoiZGF1ZGFobWVkIiwiYSI6ImNrY3gzNG10ZDBrN3kydHJwc3lzd20yeTIifQ.cx574AlQZYO-AvIrR_57Aw"
-   
+
    # GEO CODING
    GEOCODE_URL = "https://geocode.xyz/"
    ```
@@ -133,4 +133,3 @@ python manage.py createsuperuser
 ## Future Support
 
 Contact me at **daud.ahmed@tranchulas.com.**
-
