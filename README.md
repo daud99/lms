@@ -106,9 +106,9 @@ python manage.py createsuperuser
 
    # FTP SERVER
 
-   FTP_HOST = 'tms.itcomlive.com'
-   FTP_USER = 'eventimages'
-   FTP_PASSWORD = 'yn71%3Nv'
+   FTP_HOST = 'ftp.com'
+   FTP_USER = 'user'
+   FTP_PASSWORD = 'password'
 
    # SMTP SERVER
 
@@ -120,7 +120,7 @@ python manage.py createsuperuser
    DEFAULT_FROM_EMAIL = 'Roche Team <admin@roche.com>'
 
    # Key for map
-   MAPBOX_KEY = "pk.eyJ1IjoiZGF1ZGFobWVkIiwiYSI6ImNrY3gzNG10ZDBrN3kydHJwc3lzd20yeTIifQ.cx574AlQZYO-AvIrR_57Aw"
+   MAPBOX_KEY = ""
 
    # GEO CODING
    GEOCODE_URL = "https://geocode.xyz/"
